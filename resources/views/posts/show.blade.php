@@ -6,31 +6,18 @@
 <!-- Reading Progress Bar -->
 <div class="reading-progress" id="reading-progress"></div>
 <style>
-/* Modern Blog Article Style - Enhanced Design */
+/* Modern Article View - Consistent with Portal Design */
 .article-header {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+    background: #1a365d;
     color: white;
     padding: 3rem 0;
     margin: -80px -15px 0 -15px;
-    border-bottom: 4px solid #dc2626;
-    position: relative;
-    overflow: hidden;
-}
-
-.article-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,255,255,0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .article-breadcrumb {
-    background: linear-gradient(to right, #f8fafc, #ffffff);
-    border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+    border-bottom: 3px solid #e53e3e;
     padding: 1rem 0;
     margin: 0 -15px 2rem -15px;
     font-size: 0.9rem;
@@ -47,7 +34,7 @@
 }
 
 .breadcrumb a {
-    color: #1e3a8a;
+    color: #1a365d;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -56,8 +43,8 @@
 }
 
 .breadcrumb a:hover {
-    color: #dc2626;
-    background: rgba(220, 38, 38, 0.1);
+    color: #e53e3e;
+    background: rgba(229, 62, 62, 0.1);
     transform: translateY(-1px);
 }
 
@@ -142,20 +129,20 @@
 }
 
 .category-badge {
-    background: linear-gradient(135deg, #dc2626, #ef4444);
+    background: #e53e3e;
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 20px;
     font-weight: 700;
     font-size: 0.9rem;
-    box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+    box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
     transition: all 0.3s ease;
     animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 .category-badge:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(220, 38, 38, 0.4);
+    box-shadow: 0 6px 12px rgba(229, 62, 62, 0.4);
 }
 
 .article-content {
@@ -174,7 +161,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #dc2626);
+    background: #e53e3e;
 }
 
 .article-lead {
@@ -183,8 +170,8 @@
     color: #1f2937;
     margin-bottom: 2.5rem;
     padding: 2rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-    border-left: 5px solid #1e3a8a;
+    background: #f8fafc;
+    border-left: 5px solid #1a365d;
     border-radius: 0 12px 12px 0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -197,7 +184,7 @@
     top: -10px;
     left: 10px;
     font-size: 4rem;
-    color: #1e3a8a;
+    color: #1a365d;
     opacity: 0.2;
     font-family: serif;
 }
@@ -219,14 +206,14 @@
     float: left;
     line-height: 0.8;
     margin: 0.2rem 0.8rem 0.1rem 0;
-    color: #1e3a8a;
+    color: #1a365d;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     font-family: serif;
 }
 
 .article-actions {
-    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-    border-top: 3px solid #e5e7eb;
+    background: #ffffff;
+    border-top: 3px solid #e53e3e;
     padding: 2.5rem;
     display: flex;
     justify-content: space-between;
@@ -234,16 +221,6 @@
     flex-wrap: wrap;
     gap: 1.5rem;
     position: relative;
-}
-
-.article-actions::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #dc2626);
 }
 
 .btn-news {
@@ -269,37 +246,37 @@
 }
 
 .btn-back {
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    background: #1a365d;
     color: white;
     border: 2px solid transparent;
 }
 
 .btn-back:hover {
-    background: linear-gradient(135deg, #1e40af, #2563eb);
+    background: #2d3748;
     color: white;
     text-decoration: none;
 }
 
 .btn-edit {
-    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    background: #f59e0b;
     color: white;
     border: 2px solid transparent;
 }
 
 .btn-edit:hover {
-    background: linear-gradient(135deg, #d97706, #f59e0b);
+    background: #d97706;
     color: white;
     text-decoration: none;
 }
 
 .btn-delete {
-    background: linear-gradient(135deg, #dc2626, #ef4444);
+    background: #e53e3e;
     color: white;
     border: 2px solid transparent;
 }
 
 .btn-delete:hover {
-    background: linear-gradient(135deg, #b91c1c, #dc2626);
+    background: #c53030;
     color: white;
 }
 
@@ -316,7 +293,7 @@
 }
 
 .article-info i {
-    color: #1e3a8a;
+    color: #1a365d;
 }
 
 .reading-progress {
@@ -325,7 +302,7 @@
     left: 0;
     width: 0%;
     height: 4px;
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #dc2626);
+    background: #e53e3e;
     z-index: 1000;
     transition: width 0.3s ease;
 }
@@ -368,16 +345,16 @@
     gap: 2rem;
     margin-top: 1.5rem;
     padding: 1.5rem;
-    background: rgba(30, 58, 138, 0.05);
+    background: rgba(26, 54, 93, 0.05);
     border-radius: 8px;
-    border: 1px solid rgba(30, 58, 138, 0.1);
+    border: 1px solid rgba(26, 54, 93, 0.1);
 }
 
 .stat-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #1e3a8a;
+    color: #1a365d;
     font-weight: 600;
 }
 

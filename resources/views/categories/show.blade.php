@@ -1,430 +1,565 @@
-@extends('layouts.app')
-
-@section('title', $category->name)
-
-@section('content')
-<style>
-.category-hero {
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #fcb045 75%, #fd1d1d 100%);
-    background-size: 400% 400%;
-    animation: categoryGradient 18s ease infinite;
-    padding: 5rem 0 7rem;
-    margin: -90px -15px 4rem -15px;
-    position: relative;
-    overflow: hidden;
-}
-
-@keyframes categoryGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.category-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><defs><pattern id="hexagons" width="30" height="30" patternUnits="userSpaceOnUse"><polygon points="15,5 25,12 25,22 15,29 5,22 5,12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="150" height="150" fill="url(%23hexagons)"/></svg>');
-    animation: hexFloat 30s ease-in-out infinite;
-    opacity: 0.6;
-}
-
-@keyframes hexFloat {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
-}
-
-.category-hero-content {
-    position: relative;
-    z-index: 2;
-    color: white;
-    text-align: center;
-    padding-top: 3rem;
-}
-
-.category-title {
-    font-size: 3.5rem;
-    font-weight: 900;
-    margin-bottom: 2rem;
-    background: linear-gradient(45deg, #ffffff, #fff3cd, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.4));
-    animation: titlePulse 3s ease-in-out infinite;
-}
-
-@keyframes titlePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-}
-
-.category-stats {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    padding: 1.5rem 2rem;
-    border-radius: 30px;
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    margin-bottom: 2rem;
-}
-
-.category-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.posts-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-.posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.post-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-}
-
-.post-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #ff9a9e, #fecfef, #fcb045);
-    animation: cardShimmer 3s ease-in-out infinite;
-}
-
-@keyframes cardShimmer {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-
-.post-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 25px 50px rgba(255, 154, 158, 0.3);
-}
-
-.post-card-body {
-    padding: 2rem;
-}
-
-.post-card-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #2c3e50;
-}
-
-.post-card-title a {
-    text-decoration: none;
-    color: inherit;
-    background: linear-gradient(45deg, #ff9a9e, #fcb045);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    transition: all 0.3s ease;
-}
-
-.post-card-title a:hover {
-    background: linear-gradient(45deg, #fcb045, #fd1d1d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    transform: scale(1.02);
-}
-
-.post-card-text {
-    color: #6c757d;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-}
-
-.post-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: #868e96;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(0,0,0,0.1);
-}
-
-.meta-item {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.btn-modern {
-    border: none;
-    border-radius: 20px;
-    padding: 1rem 2rem;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.btn-primary-modern {
-    background: linear-gradient(45deg, #ff9a9e, #fcb045);
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-
-.btn-primary-modern:hover {
-    color: white;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(255, 154, 158, 0.4);
-}
-
-.btn-edit {
-    background: linear-gradient(45deg, #ffd89b, #19547b);
-    color: white;
-}
-
-.btn-edit:hover {
-    color: white;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(255, 216, 155, 0.4);
-}
-
-.btn-delete {
-    background: linear-gradient(45deg, #ff6b6b, #feca57);
-    color: white;
-}
-
-.btn-delete:hover {
-    color: white;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
-}
-
-.btn-back {
-    background: linear-gradient(45deg, #667eea, #764ba2);
-    color: white;
-}
-
-.btn-back:hover {
-    color: white;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-}
-
-.empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    margin: 2rem 0;
-}
-
-.empty-state-icon {
-    font-size: 4rem;
-    color: #ff9a9e;
-    margin-bottom: 1.5rem;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-10px); }
-    60% { transform: translateY(-5px); }
-}
-
-.description-card {
-    background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
-    border: 2px solid rgba(255, 154, 158, 0.3);
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 3rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.description-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #ff9a9e, #fcb045, #fd1d1d);
-}
-
-.description-title {
-    color: #d63031;
-    font-weight: 800;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.description-text {
-    color: #e17055;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    font-style: italic;
-}
-
-@media (max-width: 768px) {
-    .category-hero {
-        padding: 3rem 0 5rem;
-        margin: -90px -15px 2rem -15px;
-    }
-    
-    .category-title {
-        font-size: 2.5rem;
-    }
-    
-    .posts-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .category-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .btn-modern {
-        width: 80%;
-        justify-content: center;
-    }
-    
-    .post-card-body {
-        padding: 1.5rem;
-    }
-}
-</style>
-
-<div class="category-hero">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategori Modern</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f8cff;
+            --primary-dark: #2563eb;
+            --secondary: #6dd5ed;
+            --accent: #ff6b6b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-shadow: 0 20px 40px rgba(79, 140, 255, 0.15);
+            --hover-shadow: 0 25px 50px rgba(79, 140, 255, 0.25);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        .category-header {
+            background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 24px;
+            padding: 3.5rem 2.5rem;
+            margin-bottom: 3rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+        
+        .category-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .meta-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.7rem 1.4rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Description Card */
+        .description-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .description-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
+        .description-title {
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .description-text {
+            color: var(--gray);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            padding-left: 1.5rem;
+            border-left: 2px dashed var(--light-gray);
+            margin-left: 0.5rem;
+        }
+        
+        /* Posts Grid */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .post-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .post-card-body {
+            padding: 2rem;
+        }
+        
+        .post-card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .post-card-title a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .post-card-title a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .post-card-text {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            font-size: 0.95rem;
+            color: var(--gray);
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .empty-state-icon {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .empty-state p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Action Section */
+        .action-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            box-shadow: 0 4px 12px rgba(79, 140, 255, 0.2);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(79, 140, 255, 0.3);
+        }
+        
+        .btn-back {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .btn-back:hover {
+            background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+        }
+        
+        .btn-edit {
+            background: var(--light);
+            color: var(--primary-dark);
+        }
+        
+        .btn-edit:hover {
+            background: #e2e8f0;
+            color: var(--primary-dark);
+        }
+        
+        .btn-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .btn-delete:hover {
+            background: #fecaca;
+            color: #b91c1c;
+        }
+        
+        .btn-create {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .btn-create:hover {
+            background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .category-title {
+                font-size: 2.5rem;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .action-section {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            
+            .btn-group {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .category-header {
+                padding: 2.5rem 1.5rem;
+            }
+            
+            .category-title {
+                font-size: 2rem;
+            }
+            
+            .category-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        /* Decorative Elements */
+        .decorative-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+        }
+        
+        .circle-1 {
+            width: 200px;
+            height: 200px;
+            top: -100px;
+            right: -100px;
+        }
+        
+        .circle-2 {
+            width: 150px;
+            height: 150px;
+            bottom: -75px;
+            left: -75px;
+        }
+    </style>
+</head>
+<body>
     <div class="container">
-        <div class="category-hero-content">
+        <!-- Header Section -->
+        <header class="category-header animate-fadeIn">
+            <div class="decorative-circle circle-1"></div>
+            <div class="decorative-circle circle-2"></div>
+            
             <h1 class="category-title">
-                <i class="fas fa-tag me-3"></i>{{ $category->name }}
+                <i class="fas fa-tag"></i> Teknologi
             </h1>
             
-            <div class="category-stats">
-                <i class="fas fa-newspaper"></i>
-                <span>{{ $category->posts->count() }} Posts</span>
+            <div class="category-meta">
+                <div class="meta-badge">
+                    <i class="fas fa-newspaper"></i>
+                    <span>12 Posts</span>
+                </div>
+                
+                <div class="meta-badge">
+                    <i class="fas fa-cog"></i>
+                    <span>Kategori dapat diatur</span>
+                </div>
             </div>
-            
-            @auth
-                @if(auth()->user()->role !== 'guest' && auth()->user()->role !== 'author')
-                    <div class="category-actions">
-                        <a href="{{ route('categories.edit', $category->id) }}" class="btn-modern btn-edit">
-                            <i class="fas fa-edit"></i>
-                            Edit Kategori
-                        </a>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-modern btn-delete" onclick="return confirm('Yakin ingin menghapus kategori ini?')">
-                                <i class="fas fa-trash"></i>
-                                Hapus Kategori
-                            </button>
-                        </form>
-                    </div>
-                @endif
-            @endauth
-        </div>
-    </div>
-</div>
+        </header>
 
-<div class="posts-container">
-    @if($category->desc)
-        <div class="description-card">
+        <!-- Description Card -->
+        <div class="description-card animate-fadeIn" style="animation-delay: 0.2s;">
             <h3 class="description-title">
                 <i class="fas fa-info-circle"></i>
                 Deskripsi Kategori
             </h3>
-            <p class="description-text">{{ $category->desc }}</p>
+            <p class="description-text">
+                Kategori Teknologi membahas perkembangan terbaru dalam dunia teknologi, inovasi digital, gadget terbaru, 
+                tutorial pemrograman, serta tren teknologi masa depan. Temukan artikel menarik seputar artificial intelligence, 
+                blockchain, cloud computing, dan berbagai topik teknologi terkini.
+            </p>
         </div>
-    @endif
 
-    @if($category->posts->count() > 0)
+        <!-- Posts Grid -->
         <div class="posts-grid">
-            @foreach($category->posts as $post)
-                <div class="post-card">
-                    <div class="post-card-body">
-                        <h6 class="post-card-title">
-                            <a href="{{ route('posts.show', $post->id) }}">
-                                {{ $post->title }}
-                            </a>
-                        </h6>
-                        <p class="post-card-text">{{ Str::limit($post->desc ?: $post->body, 100) }}</p>
-                        <div class="post-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-user"></i>
-                                <span>{{ $post->user->name }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>{{ $post->created_at->format('d M Y') }}</span>
-                            </div>
+            <!-- Post 1 -->
+            <div class="post-card animate-fadeIn" style="animation-delay: 0.3s;">
+                <div class="post-card-body">
+                    <h3 class="post-card-title">
+                        <a href="#">
+                            <i class="fas fa-arrow-right"></i> 
+                            Perkembangan Artificial Intelligence di Tahun 2023
+                        </a>
+                    </h3>
+                    <p class="post-card-text">
+                        Artificial Intelligence terus berkembang pesat. Simak tren terbaru AI dan bagaimana teknologi ini 
+                        mengubah berbagai industri di dunia.
+                    </p>
+                    <div class="post-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>Budi Santoso</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>15 Agu 2023</span>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
-    @else
-        <div class="empty-state">
-            <div class="empty-state-icon">
-                <i class="fas fa-newspaper"></i>
             </div>
-            <h4 class="mb-3">Belum Ada Post</h4>
-            <p class="text-muted mb-4">Kategori ini belum memiliki post. Mulai menulis sekarang!</p>
-            <a href="{{ route('posts.create') }}" class="btn-modern btn-primary-modern">
-                <i class="fas fa-plus"></i>
-                Buat Post Baru
-            </a>
+            
+            <!-- Post 2 -->
+            <div class="post-card animate-fadeIn" style="animation-delay: 0.4s;">
+                <div class="post-card-body">
+                    <h3 class="post-card-title">
+                        <a href="#">
+                            <i class="fas fa-arrow-right"></i> 
+                            Tutorial Laravel 10: Membuat API yang Efisien
+                        </a>
+                    </h3>
+                    <p class="post-card-text">
+                        Pelajari cara membuat API yang efisien dengan Laravel 10. Artikel ini membahas best practices 
+                        dan tips untuk pengembangan API yang scalable.
+                    </p>
+                    <div class="post-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>Sari Wijaya</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>10 Agu 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Post 3 -->
+            <div class="post-card animate-fadeIn" style="animation-delay: 0.5s;">
+                <div class="post-card-body">
+                    <h3 class="post-card-title">
+                        <a href="#">
+                            <i class="fas fa-arrow-right"></i> 
+                            Blockchain Beyond Cryptocurrency: Aplikasi di Dunia Nyata
+                        </a>
+                    </h3>
+                    <p class="post-card-text">
+                        Teknologi blockchain tidak hanya tentang cryptocurrency. Temukan bagaimana blockchain digunakan 
+                        dalam supply chain, healthcare, dan berbagai industri lainnya.
+                    </p>
+                    <div class="post-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>Rizky Pratama</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>5 Agu 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    @endif
-    
-    <div class="text-center mt-4">
-        <a href="{{ route('categories.index') }}" class="btn-modern btn-back">
-            <i class="fas fa-arrow-left"></i>
-            Kembali ke Daftar Kategori
-        </a>
+
+        <!-- Action Section -->
+        <div class="action-section animate-fadeIn" style="animation-delay: 0.6s;">
+            <a href="#" class="action-btn btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Kembali ke Daftar Kategori
+            </a>
+            
+            <div class="btn-group">
+                <a href="#" class="action-btn btn-edit">
+                    <i class="fas fa-edit"></i>
+                    Edit Kategori
+                </a>
+                
+                <button class="action-btn btn-delete">
+                    <i class="fas fa-trash"></i>
+                    Hapus Kategori
+                </button>
+                
+                <a href="#" class="action-btn btn-create">
+                    <i class="fas fa-plus"></i>
+                    Buat Post Baru
+                </a>
+            </div>
+        </div>
     </div>
-</div>
-@endsection
+
+    <script>
+        // Add simple animations when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-fadeIn');
+            
+            animatedElements.forEach(element => {
+                element.style.opacity = '0';
+            });
+            
+            setTimeout(() => {
+                animatedElements.forEach(element => {
+                    element.style.opacity = '1';
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>

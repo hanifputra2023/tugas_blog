@@ -6,25 +6,9 @@
 <style>
 .register-page {
     min-height: 100vh;
-    background: linear-gradient(45deg, #2d1b69 0%, #11998e 50%, #38ef7d 100%);
+    background: linear-gradient(120deg, #4f8cff 0%, #a1c4fd 60%, #c2e9fb 100%);
     position: relative;
     overflow: hidden;
-}
-
-.register-page::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="20,20 80,20 60,60" fill="rgba(255,255,255,0.05)"/><polygon points="10,70 30,50 50,90" fill="rgba(255,255,255,0.05)"/><polygon points="70,80 90,60 85,95" fill="rgba(255,255,255,0.05)"/></svg>');
-    animation: float 25s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-15px) rotate(180deg); }
 }
 
 .register-container {
@@ -34,77 +18,58 @@
     min-height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .register-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 24px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    background: rgba(255,255,255,0.96);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(60, 80, 120, 0.10);
+    border: 1px solid #e3e8ee;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: box-shadow 0.3s;
 }
 
 .register-card:hover {
-    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(60, 80, 120, 0.13);
 }
 
 .register-header {
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-    padding: 3rem 2rem 2rem;
+    background: linear-gradient(90deg, #4f8cff 0%, #6dd5ed 100%);
+    padding: 2rem 1.5rem 1.2rem;
     text-align: center;
-    position: relative;
-}
-
-.register-header::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: #fff;
-    border-radius: 2px;
-    opacity: 0.8;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .register-header h3 {
-    color: white;
+    color: #fff;
     font-weight: 700;
-    margin-bottom: 0.5rem;
-    font-size: 1.8rem;
-}
-
-.register-header p {
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0;
-    font-size: 1rem;
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
 }
 
 .register-body {
-    padding: 2.5rem;
+    padding: 2rem 1.5rem 1.5rem;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     position: relative;
 }
 
 .form-control {
-    border: 2px solid #e8ecf0;
+    border: 1.5px solid #dbeafe;
     border-radius: 12px;
-    padding: 15px 20px 15px 50px;
+    padding: 14px 18px 14px 44px;
     font-size: 1rem;
-    transition: all 0.3s ease;
-    background: #f8f9fb;
+    background: #f6f8fa;
+    transition: border-color 0.2s;
 }
 
 .form-control:focus {
-    border-color: #11998e;
-    box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
-    background: white;
+    border-color: #4f8cff;
+    background: #fff;
 }
 
 .form-control::placeholder {
@@ -114,53 +79,33 @@
 
 .input-icon {
     position: absolute;
-    left: 18px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: #9ca3af;
+    color: #b6c2d6;
     font-size: 1.1rem;
-}
-
-.form-control:focus + .input-icon {
-    color: #11998e;
 }
 
 .btn-register {
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    background: linear-gradient(90deg, #4f8cff 0%, #6dd5ed 100%);
     border: none;
     border-radius: 12px;
-    padding: 15px;
+    padding: 13px;
     font-weight: 600;
-    font-size: 1.1rem;
-    color: white;
+    font-size: 1.08rem;
+    color: #fff;
     width: 100%;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-register::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-}
-
-.btn-register:hover::before {
-    left: 100%;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+    transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .btn-register:hover {
+    box-shadow: 0 6px 18px rgba(79,140,255,0.13);
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(17, 153, 142, 0.4);
 }
 
 .divider {
-    margin: 2rem 0;
+    margin: 1.5rem 0;
     text-align: center;
     position: relative;
 }
@@ -172,102 +117,31 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: #e8ecf0;
+    background: #e3e8ee;
 }
 
 .divider span {
-    background: white;
-    padding: 0 1.5rem;
-    color: #6b7280;
+    background: #fff;
+    padding: 0 1rem;
+    color: #7b8ca7;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 }
 
 .login-link {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 .login-link a {
-    color: #11998e;
+    color: #4f8cff;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
+    transition: color 0.2s;
 }
 
-.login-link a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: #11998e;
-    transition: width 0.3s ease;
-}
-
-.login-link a:hover::after {
-    width: 100%;
-}
-
-.role-info {
-    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
-    border: 1px solid #5eead4;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-top: 2rem;
-}
-
-.role-title {
-    color: #0f766e;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.role-explanation {
-    background: white;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid #d1fae5;
-    transition: all 0.2s ease;
-}
-
-.role-explanation:hover {
-    border-color: #10b981;
-    transform: translateX(3px);
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
-}
-
-.role-name {
-    color: #065f46;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.role-description {
-    color: #047857;
-    font-size: 0.85rem;
-    line-height: 1.4;
-}
-
-.guest-badge {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    color: #92400e;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    border: 1px solid #f59e0b;
+.login-link a:hover {
+    color: #2563eb;
 }
 
 .invalid-feedback {
@@ -285,10 +159,8 @@
                 <div class="col-md-6 col-lg-5 col-xl-4">
                     <div class="register-card">
                         <div class="register-header">
-                            <h3>Bergabung dengan Kami</h3>
-                            <p>Buat akun baru untuk memulai perjalanan</p>
+                            <h3>Registrasi</h3>
                         </div>
-                        
                         <div class="register-body">
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
@@ -354,33 +226,6 @@
                             
                             <div class="login-link">
                                 <p class="mb-0">Sudah memiliki akun? <a href="{{ route('login') }}">Masuk sekarang</a></p>
-                            </div>
-
-                            <div class="role-info">
-                                <div class="role-title">
-                                    <i class="fas fa-info-circle"></i>
-                                    Informasi Akun
-                                </div>
-                                
-                                <div class="role-explanation">
-                                    <div class="role-name">
-                                        <i class="fas fa-user-tag"></i>
-                                        Akun Baru: <span class="guest-badge">Guest</span>
-                                    </div>
-                                    <div class="role-description">
-                                        Pendaftaran otomatis sebagai Guest. Anda dapat membaca dan berkomentar pada artikel.
-                                    </div>
-                                </div>
-                                
-                                <div class="role-explanation">
-                                    <div class="role-name">
-                                        <i class="fas fa-arrow-up"></i>
-                                        Upgrade Akun
-                                    </div>
-                                    <div class="role-description">
-                                        Untuk menjadi Author atau Admin, silakan hubungi administrator setelah mendaftar.
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

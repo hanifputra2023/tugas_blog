@@ -4,12 +4,16 @@
 
 @section('content')
 <style>
+body {
+    background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+    font-family: 'Inter', sans-serif;
+}
 .create-post-page {
     min-height: 100vh;
-    background: linear-gradient(45deg, #4facfe 0%, #00f2fe 50%, #43e97b 100%);
+    background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
     position: relative;
     overflow: hidden;
-    padding: 2rem 0;
+    padding: 3rem 0 2rem 0;
 }
 
 .create-post-page::before {
@@ -34,24 +38,26 @@
 }
 
 .create-post-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 24px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+    border: 1.5px solid #e3e6ee;
+    border-radius: 22px;
+    box-shadow: 0 12px 40px rgba(60, 80, 120, 0.13);
     overflow: hidden;
     transition: transform 0.3s ease;
 }
 
 .create-post-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.01);
 }
 
 .create-post-header {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    padding: 2.5rem 2rem;
+    background: linear-gradient(120deg, #4f8cff 0%, #6dd5ed 100%);
+    padding: 2.5rem 2rem 2rem 2rem;
     text-align: center;
     position: relative;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 8px 32px rgba(79,140,255,0.10);
 }
 
 .create-post-header::after {
@@ -69,17 +75,18 @@
 
 .create-post-header h4 {
     color: white;
-    font-weight: 700;
+    font-weight: 900;
     margin: 0;
-    font-size: 1.6rem;
+    font-size: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
+    text-shadow: 0 2px 8px rgba(79,140,255,0.18);
 }
 
 .create-post-body {
-    padding: 2.5rem;
+    padding: 2.5rem 2rem;
 }
 
 .form-group {
@@ -88,17 +95,17 @@
 }
 
 .form-label {
-    color: #374151;
-    font-weight: 600;
-    font-size: 0.95rem;
+    color: #23395d;
+    font-weight: 700;
+    font-size: 1rem;
     margin-bottom: 0.75rem;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .form-control, .form-select {
-    border: 2px solid #e5e7eb;
+    border: 2px solid #e3e6ee;
     border-radius: 12px;
     padding: 15px 18px;
     font-size: 1rem;
@@ -108,21 +115,21 @@
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #4facfe;
-    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+    border-color: #4f8cff;
+    box-shadow: 0 0 0 3px rgba(79,140,255,0.10);
     background: white;
     outline: none;
 }
 
 .form-control::placeholder {
-    color: #9ca3af;
+    color: #868e96;
     font-weight: 400;
 }
 
 textarea.form-control {
     resize: vertical;
     min-height: 120px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
 }
 
@@ -132,47 +139,49 @@ textarea.form-control {
 
 .btn-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-top: 2.5rem;
     gap: 1rem;
 }
 
 .btn-back {
-    background: #6b7280;
+    background: #e3e6ee;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px 24px;
-    font-weight: 600;
-    color: white;
+    font-weight: 700;
+    color: #23395d;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: background 0.3s, color 0.3s;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.10);
 }
 
 .btn-back:hover {
-    background: #4b5563;
-    color: white;
+    background: #cfd8e3;
+    color: #23395d;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+    box-shadow: 0 4px 12px rgba(79,140,255,0.10);
 }
 
 .btn-save {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(90deg, #4f8cff 0%, #6dd5ed 100%);
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px 24px;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1rem;
     color: white;
-    transition: all 0.3s ease;
+    transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    box-shadow: 0 2px 12px rgba(79,140,255,0.10);
 }
 
 .btn-save::before {
@@ -191,23 +200,25 @@ textarea.form-control {
 }
 
 .btn-save:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+    box-shadow: 0 8px 24px rgba(79,140,255,0.18);
+    transform: translateY(-2px) scale(1.04);
+    background: linear-gradient(90deg, #2563eb 0%, #4f8cff 100%);
 }
 
 .post-info {
-    background: linear-gradient(135deg, #f0fdff 0%, #e6fffa 100%);
-    border: 1px solid #5eead4;
-    border-radius: 12px;
-    padding: 1rem;
+    background: linear-gradient(135deg, #f5f6fa 0%, #e3e6ee 100%);
+    border: 1.5px solid #e3e6ee;
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.10);
 }
 
 .post-info-icon {
-    background: #4facfe;
+    background: #4f8cff;
     color: white;
     width: 40px;
     height: 40px;
@@ -215,31 +226,31 @@ textarea.form-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 .post-info-text {
-    color: #0f766e;
-    font-weight: 500;
-    font-size: 0.9rem;
+    color: #23395d;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 .invalid-feedback {
     display: block;
-    color: #ef4444;
+    color: #c82333;
     font-size: 0.85rem;
     margin-top: 6px;
     font-weight: 500;
 }
 
 .form-control.is-invalid, .form-select.is-invalid {
-    border-color: #ef4444;
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    border-color: #c82333;
+    box-shadow: 0 0 0 3px rgba(200, 35, 51, 0.1);
 }
 
 @media (max-width: 768px) {
     .create-post-body {
-        padding: 1.5rem;
+        padding: 1.2rem;
     }
     
     .btn-group {

@@ -6,109 +6,84 @@
 <style>
 .edit-page {
     min-height: 100vh;
-    background: linear-gradient(45deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
     position: relative;
     overflow: hidden;
-    padding: 2rem 0;
-}
-
-.edit-page::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="30" cy="30" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="70" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="20" cy="60" r="1.2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="0.8" fill="rgba(255,255,255,0.1)"/></svg>');
-    animation: float 30s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
+    padding: 3rem 0 2rem 0;
 }
 
 .edit-container {
     position: relative;
     z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .edit-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 24px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    background: rgba(255,255,255,0.96);
+    border: 1.5px solid #e3e6ee;
+    border-radius: 22px;
+    box-shadow: 0 12px 40px rgba(60, 80, 120, 0.13);
     overflow: hidden;
     transition: transform 0.3s ease;
-}
-
-.edit-card:hover {
-    transform: translateY(-5px);
+    backdrop-filter: blur(3px);
+    margin-bottom: 2rem;
 }
 
 .edit-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem;
+    background: linear-gradient(120deg, #4f8cff 0%, #6dd5ed 100%);
+    padding: 2.2rem 2rem 1.2rem 2rem;
     text-align: center;
     position: relative;
-}
-
-.edit-header::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: #fff;
-    border-radius: 2px;
-    opacity: 0.8;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 8px 32px rgba(79,140,255,0.10);
 }
 
 .edit-header h4 {
     color: white;
-    font-weight: 700;
+    font-weight: 800;
     margin: 0;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(79,140,255,0.18);
 }
 
 .edit-body {
-    padding: 2.5rem;
+    padding: 2.5rem 2.2rem 2.2rem 2.2rem;
 }
 
 .form-group {
-    margin-bottom: 2rem;
+    margin-bottom: 1.7rem;
     position: relative;
 }
 
 .form-label {
-    color: #374151;
+    color: #23395d;
     font-weight: 600;
-    font-size: 0.95rem;
-    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .form-control, .form-select {
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
+    border: 1.5px solid #e3e6ee;
+    border-radius: 14px;
     padding: 12px 16px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background: #f9fafb;
+    background: #f5f6fa;
+    margin-bottom: 0.5rem;
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #4f8cff;
+    box-shadow: 0 0 0 3px rgba(79,140,255,0.10);
     background: white;
     outline: none;
 }
@@ -125,25 +100,25 @@ textarea.form-control {
 
 .form-control.large-textarea {
     min-height: 200px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', sans-serif;
     line-height: 1.6;
 }
 
 .btn-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    margin-top: 2rem;
-    gap: 1rem;
+    margin-top: 2.5rem;
+    gap: 1.2rem;
 }
 
 .btn-back {
-    background: #6b7280;
+    background: #e3e6ee;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px 24px;
-    font-weight: 600;
-    color: white;
+    font-weight: 700;
+    color: #23395d;
     text-decoration: none;
     transition: all 0.3s ease;
     display: flex;
@@ -152,18 +127,18 @@ textarea.form-control {
 }
 
 .btn-back:hover {
-    background: #4b5563;
-    color: white;
+    background: #cfd8e3;
+    color: #23395d;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+    box-shadow: 0 4px 12px rgba(79,140,255,0.10);
 }
 
 .btn-update {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, #4f8cff 0%, #6dd5ed 100%);
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px 24px;
-    font-weight: 600;
+    font-weight: 800;
     font-size: 1rem;
     color: white;
     transition: all 0.3s ease;
@@ -172,41 +147,29 @@ textarea.form-control {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.btn-update::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-}
-
-.btn-update:hover::before {
-    left: 100%;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.10);
 }
 
 .btn-update:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(90deg, #2563eb 0%, #4f8cff 100%);
+    color: white;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(79,140,255,0.18);
 }
 
 .post-info {
-    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-    border: 1px solid #d1d5db;
-    border-radius: 12px;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, #e3e6ee 0%, #f5f6fa 100%);
+    border: 1.5px solid #e3e6ee;
+    border-radius: 14px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
 .post-info-icon {
-    background: #667eea;
+    background: #4f8cff;
     color: white;
     width: 40px;
     height: 40px;
@@ -218,8 +181,8 @@ textarea.form-control {
 }
 
 .post-info-text {
-    color: #374151;
-    font-weight: 500;
+    color: #23395d;
+    font-weight: 600;
 }
 
 .invalid-feedback {
@@ -235,16 +198,19 @@ textarea.form-control {
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .edit-body {
-        padding: 1.5rem;
+        padding: 1.2rem;
     }
-    
+    .edit-container {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
     .btn-group {
         flex-direction: column-reverse;
         align-items: stretch;
+        margin-top: 2rem;
     }
-    
     .btn-back, .btn-update {
         width: 100%;
         justify-content: center;

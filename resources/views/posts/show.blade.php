@@ -3,726 +3,411 @@
 @section('title', $post->title)
 
 @section('content')
-<!-- Reading Progress Bar -->
-<div class="reading-progress" id="reading-progress"></div>
 <style>
-/* Modern Article View - Consistent with Portal Design */
-.article-header {
-    background: #1a365d;
-    color: white;
-    padding: 3rem 0;
-    margin: -80px -15px 0 -15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+body {
+    background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+    font-family: 'Inter', sans-serif;
 }
 
-.article-breadcrumb {
-    background: #ffffff;
-    border-bottom: 3px solid #e53e3e;
-    padding: 1rem 0;
-    margin: 0 -15px 2rem -15px;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.article-page {
+    max-width: 1100px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
 }
 
-.breadcrumb {
-    color: #6b7280;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin: 0;
-    font-weight: 500;
-}
-
-.breadcrumb a {
-    color: #1a365d;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-}
-
-.breadcrumb a:hover {
-    color: #e53e3e;
-    background: rgba(229, 62, 62, 0.1);
-    transform: translateY(-1px);
-}
-
-.breadcrumb span {
-    color: #9ca3af;
-    font-weight: 400;
-}
-
-.article-container {
-    max-width: 850px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    background: white;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+.article-card {
+    background: rgba(255,255,255,0.92);
+    border-radius: 22px;
+    box-shadow: 0 12px 40px rgba(60, 80, 120, 0.13);
+    border: 1.5px solid #e3e6ee;
     overflow: hidden;
-    margin-top: -1rem;
+    margin-bottom: 2.5rem;
+    backdrop-filter: blur(3px);
     position: relative;
-    z-index: 10;
 }
 
-.article-header-content {
-    max-width: 850px;
-    margin: 0 auto;
-    padding: 0 1rem;
+.article-header {
+    background: linear-gradient(120deg, #4f8cff 0%, #6dd5ed 100%);
+    color: white;
+    padding: 3.2rem 2.2rem 2.2rem 2.2rem;
+    text-align: center;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 8px 32px rgba(79,140,255,0.10);
     position: relative;
-    z-index: 2;
 }
 
 .article-title {
-    font-size: 3rem;
-    font-weight: 800;
-    color: white;
-    line-height: 1.1;
-    margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    animation: fadeInUp 0.8s ease-out;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    font-size: 2.7rem;
+    font-weight: 900;
+    margin-bottom: 1.2rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(79,140,255,0.18);
 }
 
 .article-meta {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 1.5rem;
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 1rem;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
 }
 
-.meta-item {
+.meta-badge {
+    background: linear-gradient(90deg, #e3e6ee 0%, #f5f6fa 100%);
+    padding: 0.5rem 1.1rem;
+    border-radius: 14px;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 0.75rem 1.25rem;
-    border-radius: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.meta-item:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.meta-item i {
-    font-size: 1.1rem;
-    opacity: 0.9;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #23395d;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(79,140,255,0.06);
 }
 
 .category-badge {
-    background: #e53e3e;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 20px;
+    background: linear-gradient(90deg, #e3e6ee 0%, #f5f6fa 100%);
+    padding: 0.5rem 1.1rem;
+    border-radius: 14px;
     font-weight: 700;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.8s ease-out 0.4s both;
-}
-
-.category-badge:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(229, 62, 62, 0.4);
+    font-size: 1rem;
+    color: #23395d;
+    border: none;
+    margin-top: 0.5rem;
+    display: inline-block;
+    box-shadow: 0 1px 4px rgba(79,140,255,0.09);
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
 }
 
 .article-content {
-    background: white;
-    padding: 4rem 3rem;
-    line-height: 1.8;
-    font-size: 1.15rem;
-    color: #374151;
-    position: relative;
-}
-
-.article-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: #e53e3e;
+    padding: 2.2rem 2.2rem 0 2.2rem;
 }
 
 .article-lead {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 2.5rem;
-    padding: 2rem;
-    background: #f8fafc;
-    border-left: 5px solid #1a365d;
-    border-radius: 0 12px 12px 0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
+    font-size: 1.2rem;
+    color: #495057;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.2rem;
+    background: #f5f6fa;
+    border-radius: 12px;
+    border-left: 5px solid #4f8cff;
 }
 
-.article-lead::before {
-    content: '"';
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    font-size: 4rem;
-    color: #1a365d;
-    opacity: 0.2;
-    font-family: serif;
+.article-text {
+    font-size: 1.13rem;
+    line-height: 1.7;
+    color: #212529;
+    margin-bottom: 2rem;
 }
 
-.article-body {
-    margin-top: 2.5rem;
-}
-
-.article-body p {
-    margin-bottom: 1.8rem;
+.article-text p {
+    margin-bottom: 1.2rem;
     text-align: justify;
-    color: #374151;
-    line-height: 1.9;
 }
 
-.article-body p:first-child::first-letter {
-    font-size: 4rem;
-    font-weight: 800;
-    float: left;
-    line-height: 0.8;
-    margin: 0.2rem 0.8rem 0.1rem 0;
-    color: #1a365d;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: serif;
-}
-
-.article-actions {
-    background: #ffffff;
-    border-top: 3px solid #e53e3e;
-    padding: 2.5rem;
+.stats-section {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    position: relative;
+    gap: 2rem;
+    margin: 2rem 0;
+    padding: 1.2rem;
+    background: #f5f6fa;
+    border-radius: 12px;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.07);
 }
 
-.btn-news {
-    padding: 1rem 2rem;
-    border-radius: 8px;
+.stat-card {
+    text-align: center;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.07);
+    min-width: 120px;
+}
+
+.stat-number {
+    font-size: 1.3rem;
     font-weight: 700;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    color: #4f8cff;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
-.btn-news:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.2);
+.share-section {
+    text-align: center;
+    padding: 1.2rem 0;
+    background: #f5f6fa;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.07);
 }
 
-.btn-back {
-    background: #1a365d;
-    color: white;
-    border: 2px solid transparent;
-}
-
-.btn-back:hover {
-    background: #2d3748;
-    color: white;
-    text-decoration: none;
-}
-
-.btn-edit {
-    background: #f59e0b;
-    color: white;
-    border: 2px solid transparent;
-}
-
-.btn-edit:hover {
-    background: #d97706;
-    color: white;
-    text-decoration: none;
-}
-
-.btn-delete {
-    background: #e53e3e;
-    color: white;
-    border: 2px solid transparent;
-}
-
-.btn-delete:hover {
-    background: #c53030;
-    color: white;
-}
-
-.article-info {
-    color: #6b7280;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: rgba(107, 114, 128, 0.1);
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    font-weight: 500;
-}
-
-.article-info i {
-    color: #1a365d;
-}
-
-.reading-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 4px;
-    background: #e53e3e;
-    z-index: 1000;
-    transition: width 0.3s ease;
+.share-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #23395d;
+    margin-bottom: 1rem;
 }
 
 .share-buttons {
     display: flex;
+    justify-content: center;
     gap: 1rem;
-    margin-top: 1rem;
-    align-items: center;
+    flex-wrap: wrap;
 }
 
 .share-btn {
-    padding: 0.75rem;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    color: white;
-    text-decoration: none;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 45px;
-    height: 45px;
-    font-size: 1.2rem;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.07);
 }
 
 .share-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(79,140,255,0.13);
     text-decoration: none;
 }
 
-.share-facebook { background: #1877f2; }
-.share-twitter { background: #1da1f2; }
-.share-whatsapp { background: #25d366; }
-.share-linkedin { background: #0077b5; }
+.share-facebook { background: #1877f2; color: white; }
+.share-twitter { background: #1da1f2; color: white; }
+.share-whatsapp { background: #25d366; color: white; }
+.share-linkedin { background: #0077b5; color: white; }
 
-.article-stats {
-    display: flex;
-    gap: 2rem;
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-    background: rgba(26, 54, 93, 0.05);
-    border-radius: 8px;
-    border: 1px solid rgba(26, 54, 93, 0.1);
+.action-section {
+    padding: 2rem;
+    border-top: 1.5px solid #e3e6ee;
+    background: #f5f6fa;
+    border-radius: 0 0 22px 22px;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.07);
 }
 
-.stat-item {
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+.btn-group {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 0.9rem 1.7rem;
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.07);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(79,140,255,0.13);
+    text-decoration: none;
+}
+
+.btn-back {
+    background: linear-gradient(90deg, #4f8cff 0%, #6dd5ed 100%);
+    color: white;
+}
+
+.btn-back:hover {
+    background: linear-gradient(90deg, #2563eb 0%, #4f8cff 100%);
+    color: white;
+}
+
+.btn-edit {
+    background: #e3e6ee;
+    color: #23395d;
+}
+
+.btn-edit:hover {
+    background: #cfd8e3;
+    color: #23395d;
+}
+
+.btn-delete {
+    background: #fff0f0;
+    color: #c82333;
+}
+
+.btn-delete:hover {
+    background: #ffeaea;
+    color: #a71d2a;
+}
+
+.article-info {
+    color: #666;
+    font-size: 0.95rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    color: #1a365d;
-    font-weight: 600;
+    gap: 0.7rem;
+    background: #fff;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.07);
 }
 
-.stat-item i {
-    font-size: 1.1rem;
-}
-
-.related-articles {
-    background: #f8fafc;
-    padding: 2rem;
-    margin-top: 2rem;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-}
-
-.related-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #dc2626;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .article-title {
-        font-size: 2.2rem;
-        line-height: 1.2;
+        font-size: 1.5rem;
     }
-    
     .article-meta {
         flex-direction: column;
         gap: 1rem;
-        align-items: stretch;
     }
-    
-    .meta-item {
-        justify-content: center;
-        text-align: center;
-    }
-    
     .article-content {
-        padding: 2.5rem 1.5rem;
-        font-size: 1.05rem;
+        padding: 1.2rem 0.5rem 0 0.5rem;
     }
-    
-    .article-lead {
-        font-size: 1.2rem;
-        padding: 1.5rem;
-    }
-    
-    .article-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1.5rem;
-        padding: 2rem 1.5rem;
-    }
-    
-    .btn-news {
-        justify-content: center;
-        width: 100%;
-        padding: 1.25rem;
-        font-size: 1.05rem;
-    }
-    
-    .article-body p:first-child::first-letter {
-        font-size: 3rem;
-        margin: 0.1rem 0.6rem 0 0;
-    }
-    
-    .share-buttons {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
-    .article-stats {
+    .stats-section {
         flex-direction: column;
         gap: 1rem;
+    }
+    .action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn-group {
+        justify-content: center;
+    }
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .article-info {
         text-align: center;
-    }
-    
-    .article-container {
-        margin: 0 0.5rem;
-        margin-top: -1rem;
-    }
-    
-    .article-header {
-        padding: 2rem 0;
-    }
-}
-
-/* Smooth scroll behavior */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Animation for content loading */
-.article-container {
-    animation: fadeIn 1s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Print styles */
-@media print {
-    .article-actions,
-    .article-breadcrumb,
-    .share-buttons {
-        display: none !important;
-    }
-    
-    .article-header {
-        background: #1e3a8a !important;
-        color: white !important;
-        -webkit-print-color-adjust: exact;
-    }
-    
-    .article-content {
-        padding: 1rem !important;
-        box-shadow: none !important;
+        justify-content: center;
     }
 }
 </style>
 
-<div class="article-header">
-    <div class="article-header-content">
-        <h1 class="article-title">{{ $post->title }}</h1>
-        
-        <div class="article-meta">
-            <div class="meta-item">
-                <i class="fas fa-user"></i>
-                <span>{{ $post->user->name }}</span>
+<div class="article-page">
+    <article class="article-card">
+        <header class="article-header">
+            <h1 class="article-title">{{ $post->title }}</h1>
+            <div class="article-meta">
+                <div class="meta-badge">
+                    <i class="fas fa-user"></i>
+                    <span>{{ $post->user->name }}</span>
+                </div>
+                <div class="meta-badge">
+                    <i class="fas fa-calendar"></i>
+                    <span>{{ $post->created_at->format('d M Y') }}</span>
+                </div>
+                <div class="meta-badge">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ $post->created_at->format('H:i') }}</span>
+                </div>
+                <span class="category-badge">
+                    <i class="fas fa-tag"></i>
+                    {{ $post->category->name }}
+                </span>
             </div>
-            <div class="meta-item">
-                <i class="fas fa-clock"></i>
-                <span>{{ $post->created_at->format('d M Y, H:i') }}</span>
+        </header>
+        <main class="article-content">
+            @if($post->desc)
+                <div class="article-lead">
+                    "{{ $post->desc }}"
+                </div>
+            @endif
+            <div class="article-text">
+                {!! nl2br(e($post->body)) !!}
             </div>
-            <div class="category-badge">
-                <i class="fas fa-tag me-1"></i>
-                {{ $post->category->name }}
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="article-breadcrumb">
-    <div class="container">
-        <nav class="breadcrumb">
-            <a href="{{ route('posts.index') }}">Home</a>
-            <span>/</span>
-            <a href="#">{{ $post->category->name }}</a>
-            <span>/</span>
-            <span>{{ Str::limit($post->title, 50) }}</span>
-        </nav>
-    </div>
-</div>
-
-<div class="article-container">
-    <article class="article-content">
-        @if($post->desc)
-            <div class="article-lead">
-                <strong>{{ $post->desc }}</strong>
-            </div>
-        @endif
-        
-        <div class="article-body">
-            {!! nl2br(e($post->body)) !!}
-        </div>
-        
-        <!-- Article Statistics -->
-        <div class="article-stats">
-            <div class="stat-item">
-                <i class="fas fa-eye"></i>
-                <span>{{ rand(150, 2500) }} views</span>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-clock"></i>
-                <span>{{ ceil(str_word_count(strip_tags($post->body)) / 200) }} min read</span>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-comment"></i>
-                <span>{{ rand(5, 25) }} comments</span>
-            </div>
-        </div>
-        
-        <!-- Social Share Buttons -->
-        <div class="share-buttons">
-            <strong style="color: #374151;">Share this article:</strong>
-            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" 
-               target="_blank" class="share-btn share-facebook" title="Share on Facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}" 
-               target="_blank" class="share-btn share-twitter" title="Share on Twitter">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://wa.me/?text={{ urlencode($post->title . ' - ' . request()->fullUrl()) }}" 
-               target="_blank" class="share-btn share-whatsapp" title="Share on WhatsApp">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->fullUrl()) }}" 
-               target="_blank" class="share-btn share-linkedin" title="Share on LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-        </div>
-    </article>
-    
-    <div class="article-actions">
-        <a href="{{ route('posts.index') }}" class="btn-news btn-back">
-            <i class="fas fa-arrow-left"></i>
-            Kembali ke Beranda
-        </a>
-        
-        <div class="d-flex gap-2">
-            @auth
-                @if(auth()->user()->role === 'admin' || 
-                    (auth()->user()->role === 'author' && $post->user_id === auth()->user()->id))
-                    <a href="{{ route('posts.edit', $post->id) }}" class="btn-news btn-edit">
-                        <i class="fas fa-edit"></i>
-                        Edit
+            <section class="stats-section">
+                <div class="stat-card">
+                    <span class="stat-number">{{ rand(150, 2500) }}</span>
+                    <span class="stat-label">Views</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">{{ ceil(str_word_count(strip_tags($post->body)) / 200) }}</span>
+                    <span class="stat-label">Min Read</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">{{ rand(5, 25) }}</span>
+                    <span class="stat-label">Comments</span>
+                </div>
+            </section>
+            <section class="share-section">
+                <h3 class="share-title">Share this article</h3>
+                <div class="share-buttons">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" 
+                       target="_blank" class="share-btn share-facebook" title="Share on Facebook">
+                        <i class="fab fa-facebook-f"></i>
                     </a>
-                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-news btn-delete" onclick="return confirm('Yakin ingin menghapus artikel ini?')">
-                            <i class="fas fa-trash"></i>
-                            Hapus
-                        </button>
-                    </form>
-                @endif
-            @endauth
-        </div>
-        
-        <div class="article-info">
-            <i class="fas fa-clock"></i>
-            <span>Diperbarui: {{ $post->updated_at->format('d M Y, H:i') }}</span>
-        </div>
-    </div>
+                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}" 
+                       target="_blank" class="share-btn share-twitter" title="Share on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://wa.me/?text={{ urlencode($post->title . ' - ' . request()->fullUrl()) }}" 
+                       target="_blank" class="share-btn share-whatsapp" title="Share on WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->fullUrl()) }}" 
+                       target="_blank" class="share-btn share-linkedin" title="Share on LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </section>
+        </main>
+        <footer class="action-section">
+            <div class="action-buttons">
+                <a href="{{ route('posts.index') }}" class="action-btn btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                    Kembali ke Beranda
+                </a>
+                <div class="btn-group">
+                    @auth
+                        @if(auth()->user()->role === 'admin' || 
+                            (auth()->user()->role === 'author' && $post->user_id === auth()->user()->id))
+                            <a href="{{ route('posts.edit', $post->id) }}" class="action-btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit Artikel
+                            </a>
+                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('Yakin ingin menghapus artikel ini?')">
+                                    <i class="fas fa-trash"></i>
+                                    Hapus Artikel
+                                </button>
+                            </form>
+                        @endif
+                    @endauth
+                </div>
+                <div class="article-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Terakhir diperbarui: {{ $post->updated_at->format('d M Y, H:i') }}</span>
+                </div>
+            </div>
+        </footer>
+    </article>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Reading Progress Bar
-    const progressBar = document.getElementById('reading-progress');
-    const articleContent = document.querySelector('.article-content');
-    
-    if (progressBar && articleContent) {
-        window.addEventListener('scroll', function() {
-            const articleTop = articleContent.offsetTop;
-            const articleHeight = articleContent.offsetHeight;
-            const windowHeight = window.innerHeight;
-            const scrollTop = window.pageYOffset;
-            
-            const articleStart = articleTop - windowHeight;
-            const articleEnd = articleTop + articleHeight;
-            
-            if (scrollTop >= articleStart && scrollTop <= articleEnd) {
-                const progress = ((scrollTop - articleStart) / (articleEnd - articleStart)) * 100;
-                progressBar.style.width = Math.min(progress, 100) + '%';
-            } else if (scrollTop < articleStart) {
-                progressBar.style.width = '0%';
-            } else {
-                progressBar.style.width = '100%';
-            }
-        });
-    }
-    
-    // Smooth scroll for back to top
-    const backButton = document.querySelector('.btn-back');
-    if (backButton) {
-        backButton.addEventListener('click', function(e) {
-            if (this.getAttribute('href').includes('#')) {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-    }
-    
-    // Add animation to social share buttons
-    const shareButtons = document.querySelectorAll('.share-btn');
-    shareButtons.forEach((btn, index) => {
-        btn.style.animationDelay = (index * 0.1) + 's';
-        btn.classList.add('animate-in');
-    });
-    
-    // Copy URL functionality
-    function copyToClipboard() {
-        navigator.clipboard.writeText(window.location.href).then(function() {
-            // Show success message
-            const tooltip = document.createElement('div');
-            tooltip.textContent = 'URL copied to clipboard!';
-            tooltip.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #10b981;
-                color: white;
-                padding: 0.75rem 1rem;
-                border-radius: 8px;
-                font-weight: 600;
-                z-index: 9999;
-                animation: slideIn 0.3s ease;
-            `;
-            document.body.appendChild(tooltip);
-            
-            setTimeout(() => {
-                tooltip.remove();
-            }, 3000);
-        });
-    }
-    
-    // Add copy URL button
-    const shareContainer = document.querySelector('.share-buttons');
-    if (shareContainer) {
-        const copyBtn = document.createElement('button');
-        copyBtn.innerHTML = '<i class="fas fa-link"></i>';
-        copyBtn.className = 'share-btn';
-        copyBtn.style.background = '#6b7280';
-        copyBtn.title = 'Copy URL';
-        copyBtn.onclick = copyToClipboard;
-        shareContainer.appendChild(copyBtn);
-    }
-});
-
-// Add CSS animation class
-const style = document.createElement('style');
-style.textContent = `
-    .animate-in {
-        animation: bounceIn 0.6s ease forwards;
-        opacity: 0;
-    }
-    
-    @keyframes bounceIn {
-        0% {
-            opacity: 0;
-            transform: scale(0.3) translateY(20px);
-        }
-        50% {
-            opacity: 1;
-            transform: scale(1.05) translateY(-5px);
-        }
-        100% {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-    }
-    
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-`;
-document.head.appendChild(style);
-</script>
-
 @endsection
